@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
@@ -9,53 +10,53 @@ using DataMigrator.Core.Models;
 
 namespace DataMigrator.Intrastructure.Data
 {
-    public class CosmosDbRespository : ICosmosDbRespository<MigrationTask>
+    public class CosmosDbRespository<T> : ICosmosDbRespository<T> where T : MigrationTask
     {
 
         private ICosmosDbClient _cosmosDbClient;
-        private static string query = "select * from c where c.pending = 'true'";
-        private PartitionKey _partitionKey = new PartitionKey("Config");
+        private string _partitionKey;
 
-        public CosmosDbRespository(ICosmosDbClient cosmosDbClient)
+        public CosmosDbRespository(ICosmosDbClient cosmosDbClient, string partitionKey)
         {
             _cosmosDbClient = cosmosDbClient;
+            _partitionKey = partitionKey;
         }
 
-        public IList<MigrationTask> GetPending()
+        public IList<T> GetByQuery(string query)
         {
-            var tasks = new List<MigrationTask>();
-            var documents = _cosmosDbClient.ReadDocuments(query, new FeedOptions()
+            var tasks = new List<T>();
+
+            var documents = _cosmosDbClient.ReadDocumentsByQuery(query, new FeedOptions()
             {
                 PartitionKey = ResolvePartitionKey()
             });
 
             foreach( var document in documents ) {
-               tasks.Add((MigrationTask)(dynamic) document);
+               tasks.Add((T)(dynamic) document);
             } 
 
             return tasks;
         }
 
-        public Task<MigrationTask> GetByIdAsync(string id){
+        public Task<T> GetByIdAsync(string id){
             throw new NotImplementedException();
         }
 
-        public Task<MigrationTask> AddAsync(MigrationTask entity)
+        public Task<T> AddAsync(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(MigrationTask entity)
+        public Task UpdateAsync(T entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(MigrationTask entity)
+        public Task DeleteAsync(T entity)
         {
             throw new NotImplementedException();
         }
-        public string GenerateId(MigrationTask entity) => Guid.NewGuid().ToString();
-        public PartitionKey ResolvePartitionKey(string entityId) => _partitionKey;
-        public PartitionKey ResolvePartitionKey() => _partitionKey;
+        public string GenerateId(T entity) => Guid.NewGuid().ToString();
+        public PartitionKey ResolvePartitionKey() => new PartitionKey(_partitionKey);
     }
 }

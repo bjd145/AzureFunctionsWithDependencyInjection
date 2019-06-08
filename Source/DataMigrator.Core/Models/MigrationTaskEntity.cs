@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace DataMigrator.Core.Models
 {
-    public class MigrationTask
+    public class MigrationTask 
     {
         public string PartitionKey { get; set;}
         public string id { get; set; }

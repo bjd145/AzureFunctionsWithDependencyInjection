@@ -18,7 +18,7 @@ namespace DataMigrator
 {
     public class Scheduler
     {
-
+        private static string query = "select * from c where c.pending = 'true'";
         private readonly ICosmosDbRespository<MigrationTask> _repo;
         public Scheduler(ICosmosDbRespository<MigrationTask> repo)
         {
@@ -32,17 +32,18 @@ namespace DataMigrator
             ILogger log)
         {
             log.LogInformation($"{DateTime.Now} Timer trigger function");
-            var tasks = _repo.GetPending();
-
+            var tasks = _repo.GetByQuery(query);
+            
             if ( tasks.Count() == 0 ) {
                 log.LogInformation($"No pending tasks to scheduled. Count - {tasks.Count()}");
-            }
-        
-            tasks
-                .Select( n => JsonConvert.SerializeObject(n))
-                .ToList()
-                .ForEach( n => output.Add(n))
-                            
+                log.LogInformation($"Tasks info - {JsonConvert.SerializeObject(tasks)}");
+            }     
+               
+            foreach( var task in tasks ) {
+                var t = JsonConvert.SerializeObject(task);
+                log.LogInformation($"Emitting task to Service Bus - {t}");
+                output.Add(t);
+            }  
         }
     }
 }

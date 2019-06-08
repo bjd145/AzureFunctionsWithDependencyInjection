@@ -20,9 +20,10 @@ namespace DataMigrator
         public override void Configure(IFunctionsHostBuilder builder)
         {
             var connectionString = Environment.GetEnvironmentVariable("COSMOS_CONNECTIONSTRING", EnvironmentVariableTarget.Process);
-            var databaseName = Environment.GetEnvironmentVariable("COSMOS_DATABASENAME", EnvironmentVariableTarget.Process);
-            var collectionName = Environment.GetEnvironmentVariable("COSMOS_COLLECTIONNAME", EnvironmentVariableTarget.Process);
-            
+            var databaseName     = Environment.GetEnvironmentVariable("COSMOS_DATABASENAME", EnvironmentVariableTarget.Process);
+            var collectionName   = Environment.GetEnvironmentVariable("COSMOS_COLLECTIONNAME", EnvironmentVariableTarget.Process);
+            var partitionKey     = Environment.GetEnvironmentVariable("COSMOS_PARTITIONKEY", EnvironmentVariableTarget.Process);
+
             var cosmosDBConnectionString = new CosmosDBConnectionString(connectionString);
 
             var documentClient = new DocumentClient(cosmosDBConnectionString.ServiceEndpoint, cosmosDBConnectionString.AuthKey, new JsonSerializerSettings
@@ -34,8 +35,9 @@ namespace DataMigrator
             documentClient.OpenAsync().Wait();
 
             builder.Services.AddSingleton<ICosmosDbRespository<MigrationTask>>(
-                new CosmosDbRespository(
-                    new CosmosDbClient(databaseName, collectionName, documentClient)
+                new CosmosDbRespository<MigrationTask>(
+                    new CosmosDbClient(databaseName, collectionName, documentClient),
+                    partitionKey
                 )
             );
         }

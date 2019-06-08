@@ -13,7 +13,7 @@ namespace DataMigrator.Intrastructure.Data
 {
     public interface ICosmosDbClient
     {
-        IList<Document> ReadDocuments(string query, FeedOptions options,
+        IQueryable<Document> ReadDocumentsByQuery(string query, FeedOptions options,
             CancellationToken cancellationToken = default(CancellationToken));
 
         Task<Document> ReadDocumentAsync(string documentId, RequestOptions options = null,

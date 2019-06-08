@@ -24,12 +24,11 @@ namespace DataMigrator.Intrastructure.Data
             _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
         }
 
-        public IList<Document> ReadDocuments(string query, FeedOptions options,
+        public IQueryable<Document> ReadDocumentsByQuery(string query, FeedOptions options,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             return _documentClient.CreateDocumentQuery<Document>(
-                UriFactory.CreateDocumentCollectionUri(_databaseName, _collectionName), query, options)
-                .ToList();           
+                UriFactory.CreateDocumentCollectionUri(_databaseName, _collectionName), query, options);           
         }
 
         public async Task<Document> ReadDocumentAsync(string documentId, RequestOptions options = null,
