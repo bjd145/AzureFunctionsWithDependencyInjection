@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"cosmosdbAccountName": {
+			"value": "bjdtestdb002"
+		},
+		"location": {
+			"value": "southcentralus"
+		},
+		"primaryRegion":{
+			"value": "southcentralus"
+		},
+		"databaseName": {
+			"value": "testdb002"
+		},
+		"containerName": {
+			"value": "testcontainer002"
+		},
+		"containerPartitionKey": {
+			"value": "/PartitionKey"
+		},
+		"serviceBusName": {
+			"value": "bjdsb002"
+		},
+		"topicName": {
+			"value": "tasks"
+		},
+		"functionAppName": {
+			"value": "bjdfunc002"
+		},
+		"keyVaultName": {
+			"value": "bjdvault002"
+		}
+	}
+}
