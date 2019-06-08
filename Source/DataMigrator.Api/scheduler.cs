@@ -36,14 +36,13 @@ namespace DataMigrator
 
             if ( tasks.Count() == 0 ) {
                 log.LogInformation($"No pending tasks to scheduled. Count - {tasks.Count()}");
-                log.LogInformation($"Tasks info - {JsonConvert.SerializeObject(tasks)}");
             }
         
-            foreach( var task in tasks ) {
-                var t = JsonConvert.SerializeObject(task);
-                log.LogInformation($"Emitting task to Service Bus - {t}");
-                output.Add(t);
-            }
+            tasks
+                .Select( n => JsonConvert.SerializeObject(n))
+                .ToList()
+                .ForEach( n => output.Add(n))
+                            
         }
     }
 }
