@@ -10,7 +10,8 @@ using DataMigrator.Core.Models;
 
 namespace DataMigrator.Intrastructure.Data
 {
-    public class CosmosDbRespository<T> : ICosmosDbRespository<T> where T : MigrationTask
+    public class CosmosDbRespository<T> : ICosmosDbRespository<T> where T : Entity
+    
     {
 
         private ICosmosDbClient _cosmosDbClient;

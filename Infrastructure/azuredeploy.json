@@ -73,7 +73,7 @@
 		}
 	},
 	"variables": {
-		"partitionKey": "[toLower(parameters('containerPartitionKey'))]",
+		"partitionKeyValue": "Config",
 		"accountName": "[toLower(parameters('cosmosdbAccountName'))]",
 		"defaultConsistencyLevel": "Session",
 		"locations": [
@@ -235,7 +235,7 @@
 				"WEBSITE_TIME_ZONE": "[variables('timezone')]",
 				"COSMOS_CONNECTIONSTRING": "[concat('@Microsoft.KeyVault(SecretUri=', reference(variables('cosmosConnectionStringSecret')).secretUriWithVersion, ')')]",
 				"SERVICEBUS_CONNECTIONSTRING": "[concat('@Microsoft.KeyVault(SecretUri=', reference(variables('serviceBusConnectionStringSecret')).secretUriWithVersion, ')')]",
-				"COSMOS_PARTITIONKEY": "[variables('partitionKey')]",
+				"COSMOS_PARTITIONKEY": "[variables('partitionKeyValue')]",
 				"COSMOS_COLLECTIONNAME": "[parameters('containerName')]",
 				"COSMOS_DATABASENAME": "[parameters('databaseName')]"
 			}

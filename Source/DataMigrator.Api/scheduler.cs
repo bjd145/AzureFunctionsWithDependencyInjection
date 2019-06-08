@@ -18,8 +18,8 @@ namespace DataMigrator
 {
     public class Scheduler
     {
-        private static string query = "select * from c where c.pending = 'true'";
-        private readonly ICosmosDbRespository<MigrationTask> _repo;
+        private static string query = "select * from c where c.status = 'pending'";
+        private static ICosmosDbRespository<MigrationTask> _repo;
         public Scheduler(ICosmosDbRespository<MigrationTask> repo)
         {
             _repo = repo;

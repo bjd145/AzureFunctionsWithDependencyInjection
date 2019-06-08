@@ -3,7 +3,7 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"cosmosdbAccountName": {
-			"value": "bjdtestdb003"
+			"value": "bjdtestdb002"
 		},
 		"location": {
 			"value": "southcentralus"
@@ -12,25 +12,25 @@
 			"value": "southcentralus"
 		},
 		"databaseName": {
-			"value": "testdb003"
+			"value": "testdb002"
 		},
 		"containerName": {
-			"value": "testcontainer003"
+			"value": "testcontainer002"
 		},
 		"containerPartitionKey": {
 			"value": "/PartitionKey"
 		},
 		"serviceBusName": {
-			"value": "bjdsb003"
+			"value": "bjdsb002"
 		},
 		"topicName": {
 			"value": "tasks"
 		},
 		"functionAppName": {
-			"value": "bjdfunc003"
+			"value": "bjdfunc002"
 		},
 		"keyVaultName": {
-			"value": "bjdvault003"
+			"value": "bjdvault002"
 		}
 	}
 }
